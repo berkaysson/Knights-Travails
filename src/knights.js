@@ -1,4 +1,4 @@
-const KNIGHT_OFFSETS = [
+const KNIGHT_OFFSETS = [  // potential knight moves
   [1, 2],
   [1, -2],
   [2, 1],
@@ -13,69 +13,68 @@ class ChessSquare {
   constructor(x, y, distance = 0) {
     this.xPos = x;
     this.yPos = y;
-    this.distance = distance;
+    this.distance = distance; // distance from start
     this.edges = this.getEdges();
   }
 
-  getEdges() {
+  getEdges() {  // gets all potential edges
     const edges = [];
 
-    for(let move of KNIGHT_OFFSETS){
+    for (let move of KNIGHT_OFFSETS) {
       const newX = this.xPos + move[0];
       const newY = this.yPos + move[1];
 
-      if(0 <= newX && newX < 8 && 0 <= newY && newY < 8){
+      if (0 <= newX && newX < 8 && 0 <= newY && newY < 8) { // checks if edge is in the board
         edges.push([newX, newY, this.distance + 1]);
-        // edges.push(new ChessSquare(newX, newY, this.distance + 1)) // path can be found by edges but it gives infinite loop
       }
     }
     return edges;
   }
 
-  getPosition(){
-    return `${this.xPos}, ${this.yPos}`
+  getPosition() { // gets position as string
+    return `${this.xPos}, ${this.yPos}`;
   }
 }
 
-function knightsMoves(start, end) { // check if it is neccessary to recreate ChessSquare objects
+function knightsMoves(start, end) { // main function
   const origin = new ChessSquare(start[0], start[1]);
   const target = new ChessSquare(end[0], end[1], ...end);
-  let que = [];
-  // que.push([origin.xPos, origin.yPos]);
-  que.push(origin)
 
-  const visited = new Set();
+  let que = []; // queue to make moves respectively
+  que.push(origin);
+
+  const visited = new Set();  // to check if the square visited
   const path = [];
   let pathStr = ``;
-  while(que.length > 0) {
-    const deque = que.shift()
-    // const currentSquare = new ChessSquare(deque[0], deque[1], deque[2])
-    const currentSquare = new ChessSquare(deque.xPos, deque.yPos, deque.distance)
+  while (que.length > 0) {
+    const currentSquare = que.shift()
 
     visited.add(currentSquare.getPosition());
-    path.push(currentSquare)
-    for(const move of path){
-      for(const edge of move.edges){
-        // if(edge[0] === target.xPos &&  edge[1] === target.yPos) return path.at(-1);
-        if(edge[0] === target.xPos &&  edge[1] === target.yPos){
-          let predecessor = path.at(-1); // object
+    path.push(currentSquare);
+
+    for (const move of path) {
+      for (const edge of move.edges) {
+        if (edge[0] === target.xPos && edge[1] === target.yPos) {
+          let predecessor = path.at(-1);
           pathStr += `${predecessor.getPosition()}`;
-          // console.log(pathStr)
-          if(target.distance === 1 || (currentSquare.getPosition() === origin.getPosition())) return path[0].getPosition();
-          return `${knightsMoves(start, [predecessor.xPos, predecessor.yPos, predecessor.distance])} -> ${pathStr}`;
+          if (target.distance === 1 ||currentSquare.getPosition() === origin.getPosition()) // base condition for recursion
+            return path[0].getPosition();
+          return `${knightsMoves(start, [
+            predecessor.xPos,
+            predecessor.yPos,
+            predecessor.distance,
+          ])} -> ${pathStr}`; // recursion until it reaches start point or first move
         }
       }
     }
-    // if(currentSquare.xPos === target.xPos &&  currentSquare.yPos === target.yPos) return path;
 
-    for(const edge of currentSquare.getEdges()){
-      // const edgeSquare = new ChessSquare(edge.xPos, edge.yPos, edge.distance);
-      const edgeSquare = new ChessSquare(edge[0], edge[1], edge[2]);
-      if(!visited.has(edgeSquare.getPosition())) {
+    for (const edge of currentSquare.getEdges()) {  // checks if edge is visited, if not adds it to queue
+      const edgeSquare = new ChessSquare(...edge);
+      if (!visited.has(edgeSquare.getPosition())) {
         que.push(edgeSquare);
       }
     }
   }
 }
 
-export default knightsMoves
+export default knightsMoves;
