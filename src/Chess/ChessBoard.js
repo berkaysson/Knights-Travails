@@ -36,9 +36,6 @@ const ChessBoard = ({ size = 8 }) => {
     } else {
       alert("Please select start and end points on chessboard");
     }
-    console.log(startPoint);
-    console.log(endPoint);
-    console.log(knightsMoves(startPoint, endPoint).split(" -> ").slice(1));
   };
 
   const resetTrail = () => {
