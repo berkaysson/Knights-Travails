@@ -6,7 +6,6 @@ const Square = styled.div`
   width: ${(props) => props.size}px;
   height: ${(props) => props.size}px;
   background-color: ${(props) => props.color};
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -22,7 +21,7 @@ const Tooltip = styled.span`
   padding: 5px;
   position: absolute;
   z-index: 1;
-  bottom: 100%;
+  top: 1rem;
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;
