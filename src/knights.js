@@ -64,10 +64,7 @@ function knightsMoves(start, end) {
         if (edge[0] === target.xPos && edge[1] === target.yPos) {
           let predecessor = path.at(-1);
           pathStr += `${predecessor.getPosition()}`;
-          if (
-            target.distance === 1 ||
-            currentSquare.getPosition() === origin.getPosition()
-          )
+          if (currentSquare.getPosition() === origin.getPosition())
             // Base condition for recursion
             return path[0].getPosition();
           return `${knightsMoves(start, [
