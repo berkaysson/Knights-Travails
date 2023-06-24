@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Knights-Travails/static/css/main.59c56f24.css",
+    "main.js": "/Knights-Travails/static/js/main.5ded3021.js",
+    "index.html": "/Knights-Travails/index.html",
+    "main.59c56f24.css.map": "/Knights-Travails/static/css/main.59c56f24.css.map",
+    "main.5ded3021.js.map": "/Knights-Travails/static/js/main.5ded3021.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.59c56f24.css",
+    "static/js/main.5ded3021.js"
+  ]
+}
